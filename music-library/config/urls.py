@@ -16,18 +16,29 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+def home(request):
+    return JsonResponse({
+        "message": "Music Library API is Running 🚀",
+        "status": "success"
+    })
+
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/accounts/', include('accounts.urls')),
-    path('api/songs/', include('music.urls')),
-    path('api/playlists/', include('playlist.urls')),
-    path('api/favorites/', include('favorites.urls')),
-    path('api/history/', include('history.urls')),
+    path("", home),
+
+    path("admin/", admin.site.urls),
+
+    path("api/accounts/", include("accounts.urls")),
+    path("api/songs/", include("music.urls")),
+    path("api/playlists/", include("playlist.urls")),
+    path("api/favorites/", include("favorites.urls")),
+    path("api/history/", include("history.urls")),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
