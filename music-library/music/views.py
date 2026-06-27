@@ -11,20 +11,20 @@ class SongViewSet(viewsets.ModelViewSet):
     search_fields = ['title', 'artist', 'album', 'genre']
 
     def get_queryset(self):
-        queryset = Song.objects.all().order_by('-uploaded_at')
-        
+        queryset = Song.objects.filter(
+            uploaded_by=self.request.user
+            ).order_by('-uploaded_at')
         # Manual filtering
         artist = self.request.query_params.get('artist')
         album = self.request.query_params.get('album')
         genre = self.request.query_params.get('genre')
-
         if artist:
             queryset = queryset.filter(artist__iexact=artist)
         if album:
             queryset = queryset.filter(album__iexact=album)
         if genre:
             queryset = queryset.filter(genre__iexact=genre)
-
+        
         return queryset
 
     def perform_create(self, serializer):
@@ -33,7 +33,7 @@ class SongViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def filters(self, request):
         """Returns unique lists of artists, albums, and genres for filtering."""
-        songs = Song.objects.all()
+        songs = Song.objects.filter(uploaded_by=request.user)
         artists = list(songs.values_list('artist', flat=True).distinct().order_by('artist'))
         albums = list(songs.values_list('album', flat=True).distinct().order_by('album'))
         genres = list(songs.values_list('genre', flat=True).distinct().order_by('genre'))

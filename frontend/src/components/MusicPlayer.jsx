@@ -1,16 +1,16 @@
 import React, { useRef, useState, useEffect } from 'react';
 import api, { API_BASE_URL } from '../api';
-import { 
-  Play, Pause, SkipForward, SkipBack, Volume2, VolumeX, 
-  Repeat, Shuffle, Heart, Disc, Music 
+import {
+  Play, Pause, SkipForward, SkipBack, Volume2, VolumeX,
+  Repeat, Shuffle, Heart, Disc, Music
 } from 'lucide-react';
 import MobileNowPlaying from './MobileNowPlaying';
 
-export default function MusicPlayer({ 
-  currentSong, 
-  isPlaying, 
-  setIsPlaying, 
-  playNext, 
+export default function MusicPlayer({
+  currentSong,
+  isPlaying,
+  setIsPlaying,
+  playNext,
   playPrevious,
   shuffle,
   setShuffle,
@@ -39,9 +39,14 @@ export default function MusicPlayer({
         setIsExpanded(false);
       }
     };
+
     handleResize();
+
     window.addEventListener('resize', handleResize);
-    return () => window.remove('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // Auto-expand on new song selection on mobile
@@ -169,7 +174,7 @@ export default function MusicPlayer({
           onLoadedMetadata={handleLoadedMetadata}
           onEnded={handleAudioEnded}
         />
-        
+
         {isExpanded ? (
           <MobileNowPlaying
             currentSong={currentSong}
@@ -194,16 +199,16 @@ export default function MusicPlayer({
         ) : (
           <div className="fixed bottom-0 left-0 right-0 h-16 bg-white/95 dark:bg-dark-900/95 border-t border-slate-200 dark:border-slate-800/80 backdrop-blur-md px-4 flex items-center justify-between z-40 transition-colors duration-300 shadow-xl">
             {/* Left: Info area (Tapping it expands the player) */}
-            <div 
+            <div
               onClick={() => setIsExpanded(true)}
               className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer text-left"
             >
               <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 relative flex items-center justify-center">
                 {currentSong.cover_image ? (
-                  <img 
-                    src={getAbsoluteUrl(currentSong.cover_image)} 
-                    alt={currentSong.title} 
-                    className="w-full h-full object-cover" 
+                  <img
+                    src={getAbsoluteUrl(currentSong.cover_image)}
+                    alt={currentSong.title}
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <Music className="w-5 h-5 text-slate-400 dark:text-slate-600" />
@@ -238,7 +243,7 @@ export default function MusicPlayer({
 
   return (
     <div className="hidden md:flex fixed bottom-0 left-0 right-0 h-24 bg-white/95 dark:bg-dark-900/95 border-t border-slate-200 dark:border-slate-800/80 backdrop-blur-md px-6 flex items-center justify-between z-40 transition-colors duration-300 shadow-xl">
-      
+
       {/* Audio Element */}
       <audio
         ref={audioRef}
@@ -252,10 +257,10 @@ export default function MusicPlayer({
       <div className="flex items-center gap-3 w-1/4 min-w-[200px]">
         <div className="w-14 h-14 rounded-lg bg-slate-100 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 relative flex items-center justify-center">
           {currentSong.cover_image ? (
-            <img 
-              src={getAbsoluteUrl(currentSong.cover_image)} 
-              alt={currentSong.title} 
-              className="w-full h-full object-cover" 
+            <img
+              src={getAbsoluteUrl(currentSong.cover_image)}
+              alt={currentSong.title}
+              className="w-full h-full object-cover"
             />
           ) : (
             <Music className="w-6 h-6 text-slate-400 dark:text-slate-600" />
@@ -270,15 +275,14 @@ export default function MusicPlayer({
           <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{currentSong.title}</p>
           <p className="text-xs text-slate-500 dark:text-slate-400 truncate mt-0.5">{currentSong.artist}</p>
         </div>
-        
+
         {/* Favorite Toggle */}
         <button
           onClick={() => onFavoriteToggle(currentSong.id)}
-          className={`p-2 rounded-xl transition-all ml-1 ${
-            isFavorited 
-              ? 'text-red-500 hover:text-red-600 bg-red-500/10' 
+          className={`p-2 rounded-xl transition-all ml-1 ${isFavorited
+              ? 'text-red-500 hover:text-red-600 bg-red-500/10'
               : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-dark-800'
-          }`}
+            }`}
         >
           <Heart className="w-4 h-4 fill-current" />
         </button>
@@ -290,11 +294,10 @@ export default function MusicPlayer({
           {/* Shuffle */}
           <button
             onClick={() => setShuffle(!shuffle)}
-            className={`p-1.5 rounded-lg transition-all ${
-              shuffle 
-                ? 'text-violet-500 bg-violet-500/10' 
+            className={`p-1.5 rounded-lg transition-all ${shuffle
+                ? 'text-violet-500 bg-violet-500/10'
                 : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-            }`}
+              }`}
             title="Shuffle"
           >
             <Shuffle className="w-4 h-4" />
@@ -330,11 +333,10 @@ export default function MusicPlayer({
           {/* Repeat */}
           <button
             onClick={() => setRepeat(!repeat)}
-            className={`p-1.5 rounded-lg transition-all ${
-              repeat 
-                ? 'text-violet-500 bg-violet-500/10' 
+            className={`p-1.5 rounded-lg transition-all ${repeat
+                ? 'text-violet-500 bg-violet-500/10'
                 : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-            }`}
+              }`}
             title="Repeat"
           >
             <Repeat className="w-4 h-4" />
