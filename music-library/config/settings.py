@@ -53,8 +53,38 @@ INSTALLED_APPS = [
     'playlist',
     'favorites',
     'history',
+    "cloudinary",
+    "cloudinary_storage",
 ]
 
+# import cloudinary
+
+# cloudinary.config(
+#     cloud_name="dgbhn4voc",
+#     api_key="395585515318281",
+#     api_secret="b3Zerdl0QyvX7D3ocpCaN3i6peE",
+#     secure=True,
+# )
+
+
+import os
+import cloudinary
+
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+    secure=True,
+)
+
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -135,7 +165,6 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -149,6 +178,7 @@ CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
     "https://own-music-playlist.vercel.app",
 ]
+
 
 
 # REST Framework settings
@@ -174,6 +204,4 @@ SIMPLE_JWT = {
 }
 
 # Media files (uploaded MP3s and album covers)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
 
