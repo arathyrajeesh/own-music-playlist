@@ -27,6 +27,12 @@ class PlaylistViewSet(viewsets.ModelViewSet):
         except Song.DoesNotExist:
             return Response({'error': 'Song not found'}, status=status.HTTP_404_NOT_FOUND)
         
+        if playlist.songs.filter(id=song.id).exists():
+            return Response(
+                {'error': 'This song is already in the playlist'},
+                status=status.HTTP_409_CONFLICT
+            )
+
         playlist.songs.add(song)
         return Response({'status': 'song added to playlist'})
 

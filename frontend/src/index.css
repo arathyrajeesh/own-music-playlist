@@ -8,7 +8,7 @@
   }
 
   .dark {
-    --slider-track-color: #334155;
+    --slider-track-color: #2a2a2a;
   }
 
   body {
@@ -17,7 +17,7 @@
   }
   
   body.dark {
-    @apply bg-dark-950 text-dark-100;
+    @apply bg-black text-slate-200;
   }
 }
 
@@ -92,7 +92,7 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   margin-top: -4px;
-  background-color: #8b5cf6;
+  background-color: #22c55e;
   height: 12px;
   width: 12px;
   border-radius: 50%;

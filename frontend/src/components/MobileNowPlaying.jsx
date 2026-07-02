@@ -201,9 +201,9 @@ scale(${offset === 0 ? 1 : 0.75})
                     max={trackDuration || 1}
                     value={currentTime}
                     onChange={handleSeek}
-                    className="w-full accent-violet-500"
+                    className="w-full accent-green-500"
                     style={{
-                      background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${progressPercent}%, rgba(255, 255, 255, 0.25) ${progressPercent}%, rgba(255, 255, 255, 0.25) 100%)`
+                      background: `linear-gradient(to right, #22c55e 0%, #22c55e ${progressPercent}%, rgba(255, 255, 255, 0.25) ${progressPercent}%, rgba(255, 255, 255, 0.25) 100%)`
                     }}
                   />
 
@@ -239,7 +239,7 @@ scale(${offset === 0 ? 1 : 0.75})
 
           <button
             onClick={() => setShuffle(!shuffle)}
-            className={`${shuffle ? "text-violet-400" : "text-white/70"}`}
+            className={`${shuffle ? "text-green-400" : "text-white/70"}`}
           >
             <Shuffle className="w-6 h-6" />
           </button>
@@ -304,7 +304,7 @@ scale(${offset === 0 ? 1 : 0.75})
             onClick={() => setShuffle(!shuffle)}
           >
             <Shuffle
-              className={`w-6 h-6 ${shuffle ? "text-violet-400" : "text-white"
+              className={`w-6 h-6 ${shuffle ? "text-green-400" : "text-white"
                 }`}
             />
           </button>

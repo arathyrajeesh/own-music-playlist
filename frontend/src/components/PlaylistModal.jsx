@@ -13,11 +13,11 @@ export default function PlaylistModal({ onClose, onCreate }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="w-full max-w-sm bg-white dark:bg-dark-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl overflow-hidden p-6 transition-colors duration-300">
+      <div className="w-full max-w-sm bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-2xl shadow-2xl overflow-hidden p-6 transition-colors duration-300">
         
         {/* Header */}
         <div className="flex items-center justify-between mb-5">
-          <div className="flex items-center gap-2.5 text-violet-600 dark:text-violet-400">
+          <div className="flex items-center gap-2.5 text-green-600 dark:text-green-400">
             <ListMusic className="w-5 h-5" />
             <h3 className="text-lg font-bold text-slate-900 dark:text-white">Create Playlist</h3>
           </div>
@@ -42,7 +42,7 @@ export default function PlaylistModal({ onClose, onCreate }) {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g. Chill Beats"
-              className="w-full px-4 py-3 bg-slate-50 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-sm"
+              className="w-full px-4 py-3 bg-slate-50 dark:bg-black border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all text-sm"
             />
           </div>
 
@@ -50,13 +50,13 @@ export default function PlaylistModal({ onClose, onCreate }) {
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-slate-100 dark:bg-dark-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-200 dark:hover:bg-dark-700 transition-colors text-xs"
+              className="px-4 py-2 bg-slate-100 dark:bg-zinc-900 text-slate-700 dark:text-slate-300 font-semibold rounded-xl hover:bg-slate-200 dark:hover:bg-dark-700 transition-colors text-xs"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 active:scale-[0.98] text-white font-semibold rounded-xl transition-all shadow-md shadow-violet-500/10 text-xs"
+              className="px-5 py-2 bg-gradient-to-r from-green-600 to-yellow-600 hover:from-green-500 hover:to-yellow-500 active:scale-[0.98] text-white font-semibold rounded-xl transition-all shadow-md shadow-green-500/10 text-xs"
             >
               Create Playlist
             </button>

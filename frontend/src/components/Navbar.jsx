@@ -17,14 +17,14 @@ export default function Navbar({ search, setSearch, onUploadClick, onLogout, isD
   };
 
   return (
-    <header className="h-20 border-b border-slate-200/60 dark:border-slate-800/40 px-6 flex items-center justify-between bg-white/60 dark:bg-dark-900/40 backdrop-blur-md sticky top-0 z-30 transition-all duration-300">
+    <header className="h-20 border-b border-slate-200/60 dark:border-zinc-800/40 px-6 flex items-center justify-between bg-white/60 dark:bg-zinc-950/40 backdrop-blur-md sticky top-0 z-30 transition-all duration-300">
       
       {/* Search Input */}
       <div className="relative w-full max-w-md flex items-center">
         {/* Mobile Menu Toggle Button */}
         <button 
           onClick={onMenuClick}
-          className="md:hidden p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800/60 mr-3 bg-white dark:bg-dark-900 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-dark-800 transition-colors shadow-sm"
+          className="md:hidden p-2.5 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 mr-3 bg-white dark:bg-zinc-950 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-dark-800 transition-colors shadow-sm"
           title="Open Menu"
         >
           <Menu className="w-5 h-5" />
@@ -39,17 +39,17 @@ export default function Navbar({ search, setSearch, onUploadClick, onLogout, isD
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by title, artist, album, genre..."
-            className="w-full pl-11 pr-4 py-2.5 bg-slate-100 dark:bg-dark-950/80 border border-slate-200/60 dark:border-slate-800/80 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all text-sm"
+            className="w-full pl-11 pr-4 py-2.5 bg-slate-50 dark:bg-black/80 border border-slate-200/60 dark:border-zinc-800/80 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-600 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 transition-all text-sm"
           />
         </div>
       </div>
 
       {/* Right Controls */}
-      <div className="flex items-center gap-4">
-        {/* Upload Button */}
+      <div className="flex items-center gap-3">
+        {/* Upload Button — hidden on mobile (available in sidebar) */}
         <button
           onClick={onUploadClick}
-          className="hidden sm:flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-violet-500/10 active:scale-95"
+          className="hidden md:flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-green-600 to-yellow-600 hover:from-green-500 hover:to-yellow-500 text-white font-semibold text-sm rounded-xl transition-all shadow-md shadow-green-500/10 active:scale-95"
         >
           <Upload className="w-4 h-4" />
           <span>Upload Song</span>
@@ -58,34 +58,31 @@ export default function Navbar({ search, setSearch, onUploadClick, onLogout, isD
         {/* Theme Switcher */}
         <button
           onClick={toggleTheme}
-          className="p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-dark-900 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-dark-800 transition-colors shadow-sm"
+          className="p-2.5 rounded-xl border border-slate-200/60 dark:border-zinc-800/60 bg-white dark:bg-zinc-950 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-dark-800 transition-colors shadow-sm"
           title="Toggle Light/Dark Mode"
         >
-          {isDarkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-indigo-500" />}
+          {isDarkMode ? <Sun className="w-5 h-5 text-amber-500" /> : <Moon className="w-5 h-5 text-yellow-500" />}
         </button>
 
-        {/* User Badge */}
-        <div className="h-10 border-r border-slate-200 dark:border-slate-800 hidden md:block"></div>
+        {/* Logout — desktop only, profile section in mobile sidebar */}
+        <button
+          onClick={onLogout}
+          className="hidden md:flex p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-500/10 dark:hover:bg-red-500/20 transition-all"
+          title="Log Out"
+        >
+          <LogOut className="w-5 h-5" />
+        </button>
 
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-violet-100 dark:bg-violet-950/50 flex items-center justify-center text-violet-600 dark:text-violet-400 font-bold shadow-inner">
+        {/* User Profile — desktop only (hidden on mobile, shown in sidebar) */}
+        <div className="hidden md:flex items-center gap-3 pl-1 border-l border-slate-200 dark:border-zinc-800">
+          <div className="w-9 h-9 rounded-xl bg-green-100 dark:bg-green-950/50 flex items-center justify-center text-green-600 dark:text-green-400 shadow-inner">
             <User className="w-4 h-4" />
           </div>
           <div className="hidden lg:block text-left">
-            <p className="text-xs text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Logged In</p>
-            <p className="text-sm font-semibold text-slate-800 dark:text-slate-200">{username}</p>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold uppercase tracking-wider">Logged In</p>
+            <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 truncate max-w-[120px]">{username}</p>
           </div>
-          
-          {/* Logout Button */}
-          <button
-            onClick={onLogout}
-            className="p-2.5 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-500/10 dark:hover:bg-red-500/20 transition-all ml-1"
-            title="Log Out"
-          >
-            <LogOut className="w-5 h-5" />
-          </button>
         </div>
-
       </div>
 
     </header>

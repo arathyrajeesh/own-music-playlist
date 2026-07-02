@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from './api';
 import AuthModal from './components/AuthModal';
 import Navbar from './components/Navbar';
@@ -7,6 +7,8 @@ import Dashboard from './components/Dashboard';
 import MusicPlayer from './components/MusicPlayer';
 import UploadModal from './components/UploadModal';
 import PlaylistModal from './components/PlaylistModal';
+import ConfirmModal from './components/ConfirmModal';
+import { AlertCircle, CheckCircle } from 'lucide-react';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('access_token'));
@@ -33,6 +35,23 @@ export default function App() {
   // Modals state
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [showPlaylistModal, setShowPlaylistModal] = useState(false);
+
+  // Confirm dialog state
+  const [confirmDialog, setConfirmDialog] = useState(null); // { title, message, onConfirm }
+
+  const openConfirm = (title, message, onConfirm) => {
+    setConfirmDialog({ title, message, onConfirm });
+  };
+
+  const closeConfirm = () => setConfirmDialog(null);
+
+  // Toast notification state
+  const [toast, setToast] = useState(null);
+
+  const showToast = useCallback((message, type = 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  }, []);
 
   // Sync theme class on mount
   useEffect(() => {
@@ -124,37 +143,54 @@ export default function App() {
   const handleAddToPlaylist = async (playlistId, songId) => {
     try {
       await api.post(`/api/playlists/${playlistId}/add-song/`, { song_id: songId });
+      showToast('Song added to playlist!', 'success');
       setTriggerReload(prev => prev + 1);
     } catch (err) {
-      console.error('Error adding song to playlist:', err);
+      if (err.response?.status === 409) {
+        showToast('This song is already in the playlist');
+      } else {
+        console.error('Error adding song to playlist:', err);
+      }
     }
   };
 
   // Delete song
-  const handleDeleteSong = async (songId) => {
-    if (!window.confirm('Are you sure you want to delete this track?')) return;
-    try {
-      await api.delete(`/api/songs/${songId}/`);
-      if (currentSong?.id === songId) {
-        setCurrentSong(null);
-        setIsPlaying(false);
+  const handleDeleteSong = (songId) => {
+    openConfirm(
+      'Delete Track',
+      'This track will be permanently deleted. This action cannot be undone.',
+      async () => {
+        closeConfirm();
+        try {
+          await api.delete(`/api/songs/${songId}/`);
+          if (currentSong?.id === songId) {
+            setCurrentSong(null);
+            setIsPlaying(false);
+          }
+          setTriggerReload(prev => prev + 1);
+        } catch (err) {
+          console.error('Error deleting song:', err);
+        }
       }
-      setTriggerReload(prev => prev + 1);
-    } catch (err) {
-      console.error('Error deleting song:', err);
-    }
+    );
   };
 
   // Delete playlist
-  const handleDeletePlaylist = async (playlistId) => {
-    if (!window.confirm('Are you sure you want to delete this playlist?')) return;
-    try {
-      await api.delete(`/api/playlists/${playlistId}/`);
-      setActiveFilter('all');
-      setTriggerReload(prev => prev + 1);
-    } catch (err) {
-      console.error('Error deleting playlist:', err);
-    }
+  const handleDeletePlaylist = (playlistId) => {
+    openConfirm(
+      'Delete Playlist',
+      'This playlist and all its song links will be permanently removed.',
+      async () => {
+        closeConfirm();
+        try {
+          await api.delete(`/api/playlists/${playlistId}/`);
+          setActiveFilter('all');
+          setTriggerReload(prev => prev + 1);
+        } catch (err) {
+          console.error('Error deleting playlist:', err);
+        }
+      }
+    );
   };
 
   // Music Player Core handlers
@@ -209,7 +245,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-dark-950 transition-colors duration-300">
+    <div className="flex h-screen overflow-hidden bg-slate-100 dark:bg-black transition-colors duration-300">
       
       {/* Sidebar navigation */}
       <Sidebar
@@ -217,6 +253,10 @@ export default function App() {
         activeFilter={activeFilter}
         setActiveFilter={setActiveFilter}
         onCreatePlaylistClick={() => setShowPlaylistModal(true)}
+        onUploadClick={() => setShowUploadModal(true)}
+        onLogout={handleLogout}
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
       />
@@ -287,6 +327,30 @@ export default function App() {
         <PlaylistModal
           onClose={() => setShowPlaylistModal(false)}
           onCreate={handleCreatePlaylist}
+        />
+      )}
+
+      {/* Toast Notification */}
+      {toast && (
+        <div className={`fixed bottom-28 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl text-sm font-semibold transition-all duration-300 ${
+          toast.type === 'success'
+            ? 'bg-green-500 text-white shadow-green-500/30'
+            : 'bg-red-500 text-white shadow-red-500/30'
+        }`}>
+          {toast.type === 'success'
+            ? <CheckCircle className="w-5 h-5 shrink-0" />
+            : <AlertCircle className="w-5 h-5 shrink-0" />}
+          <span>{toast.message}</span>
+        </div>
+      )}
+
+      {/* Confirm Delete Modal */}
+      {confirmDialog && (
+        <ConfirmModal
+          title={confirmDialog.title}
+          message={confirmDialog.message}
+          onConfirm={confirmDialog.onConfirm}
+          onCancel={closeConfirm}
         />
       )}
 

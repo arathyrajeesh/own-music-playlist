@@ -114,13 +114,13 @@ export default function Dashboard({
   };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 pb-32 space-y-8 bg-slate-50 dark:bg-dark-950 text-slate-900 dark:text-dark-100 transition-colors duration-300">
+    <div className="flex-1 overflow-y-auto p-6 pb-32 space-y-8 bg-slate-50 dark:bg-black text-slate-900 dark:text-slate-200 transition-colors duration-300">
       
       {/* 1. Recently Played Pane (if available) */}
       {recentPlays.length > 0 && (
         <section className="space-y-3">
           <div className="flex items-center gap-2 text-slate-800 dark:text-slate-200">
-            <History className="w-5 h-5 text-violet-500" />
+            <History className="w-5 h-5 text-green-500" />
             <h4 className="text-base font-bold tracking-tight">Recently Played</h4>
           </div>
           <div className="flex gap-4 overflow-x-auto pb-3 scrollbar-thin">
@@ -131,9 +131,9 @@ export default function Dashboard({
                 <div 
                   key={entry.id}
                   onClick={() => handleHistoryPlay(s)}
-                  className="flex items-center gap-3 p-3 bg-white dark:bg-dark-900 border border-slate-200/50 dark:border-slate-800/50 rounded-xl hover:shadow-md cursor-pointer transition-all shrink-0 w-60 group text-left"
+                  className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-950 border border-slate-200/50 dark:border-zinc-800/50 rounded-xl hover:shadow-md cursor-pointer transition-all shrink-0 w-60 group text-left"
                 >
-                  <div className="w-12 h-12 rounded-lg bg-slate-100 dark:bg-dark-950 border overflow-hidden shrink-0 flex items-center justify-center relative">
+                  <div className="w-12 h-12 rounded-lg bg-slate-50 dark:bg-black border overflow-hidden shrink-0 flex items-center justify-center relative">
                     {s.cover_image ? (
                       <img src={getAbsoluteUrl(s.cover_image)} alt={s.title} className="w-full h-full object-cover" />
                     ) : (
@@ -144,7 +144,7 @@ export default function Dashboard({
                     </span>
                   </div>
                   <div className="truncate min-w-0">
-                    <p className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-violet-500 transition-colors">{s.title}</p>
+                    <p className="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-green-500 transition-colors">{s.title}</p>
                     <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-0.5">{s.artist}</p>
                   </div>
                 </div>
@@ -156,7 +156,7 @@ export default function Dashboard({
 
       {/* 2. Filter Bar (Only shown on 'All Songs' view) */}
       {activeFilter === 'all' && (
-        <section className="p-4 bg-white dark:bg-dark-900 border border-slate-200/60 dark:border-slate-800/60 rounded-2xl flex flex-wrap gap-4 items-end shadow-sm">
+        <section className="p-4 bg-white dark:bg-zinc-950 border border-slate-200/60 dark:border-zinc-800/60 rounded-2xl flex flex-wrap gap-4 items-end shadow-sm">
           <div className="flex items-center gap-2 text-slate-500 dark:text-slate-400 mb-auto py-1">
             <Filter className="w-4 h-4" />
             <span className="text-xs font-bold uppercase tracking-wider">Filters</span>
@@ -168,7 +168,7 @@ export default function Dashboard({
             <select
               value={selectedArtist}
               onChange={(e) => setSelectedArtist(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-violet-500"
+              className="w-full px-3 py-2 bg-slate-50 dark:bg-black border border-slate-200 dark:border-zinc-800 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-green-500"
             >
               <option value="">All Artists</option>
               {filterData.artists.map((a) => <option key={a} value={a}>{a}</option>)}
@@ -181,7 +181,7 @@ export default function Dashboard({
             <select
               value={selectedAlbum}
               onChange={(e) => setSelectedAlbum(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-violet-500"
+              className="w-full px-3 py-2 bg-slate-50 dark:bg-black border border-slate-200 dark:border-zinc-800 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-green-500"
             >
               <option value="">All Albums</option>
               {filterData.albums.map((al) => <option key={al} value={al}>{al}</option>)}
@@ -194,7 +194,7 @@ export default function Dashboard({
             <select
               value={selectedGenre}
               onChange={(e) => setSelectedGenre(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-violet-500"
+              className="w-full px-3 py-2 bg-slate-50 dark:bg-black border border-slate-200 dark:border-zinc-800 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-green-500"
             >
               <option value="">All Genres</option>
               {filterData.genres.map((g) => <option key={g} value={g}>{g}</option>)}
@@ -205,7 +205,7 @@ export default function Dashboard({
           {(selectedArtist || selectedAlbum || selectedGenre) && (
             <button
               onClick={clearFilters}
-              className="px-4 py-2 bg-slate-100 dark:bg-dark-800 hover:bg-slate-200 dark:hover:bg-dark-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5"
+              className="px-4 py-2 bg-slate-100 dark:bg-zinc-900 hover:bg-slate-200 dark:hover:bg-dark-700 text-slate-700 dark:text-slate-300 rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Clear</span>
@@ -218,7 +218,7 @@ export default function Dashboard({
       <section className="space-y-5">
         
         {/* Header Title / actions */}
-        <div className="flex items-center justify-between border-b border-slate-200/50 dark:border-slate-800/50 pb-4">
+        <div className="flex items-center justify-between border-b border-slate-200/50 dark:border-zinc-800/50 pb-4">
           <div className="text-left">
             <h2 className="text-2xl font-bold tracking-tight">
               {activeFilter === 'all' && 'All Songs'}
@@ -245,7 +245,7 @@ export default function Dashboard({
         {/* Songs Grid */}
         {songs.length === 0 ? (
           <div className="py-20 flex flex-col items-center justify-center text-center max-w-md mx-auto">
-            <div className="w-16 h-16 bg-slate-100 dark:bg-dark-900 border border-slate-200/80 dark:border-slate-800/80 rounded-2xl flex items-center justify-center text-slate-400 dark:text-slate-500 mb-5">
+            <div className="w-16 h-16 bg-slate-100 dark:bg-zinc-950 border border-slate-200/80 dark:border-zinc-800/80 rounded-2xl flex items-center justify-center text-slate-400 dark:text-slate-500 mb-5">
               <ListMusic className="w-8 h-8" />
             </div>
             <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">No tracks found</h3>

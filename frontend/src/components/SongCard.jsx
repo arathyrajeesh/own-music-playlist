@@ -37,14 +37,14 @@ export default function SongCard({
   };
 
   return (
-    <div className={`p-4 rounded-2xl bg-white dark:bg-dark-900 border transition-all duration-300 group flex flex-col relative select-none ${
+    <div className={`p-4 rounded-2xl bg-white dark:bg-zinc-950 border transition-all duration-300 group flex flex-col relative select-none ${
       isCurrent 
-        ? 'border-violet-500 shadow-lg shadow-violet-500/5 bg-violet-50/20 dark:bg-violet-950/10' 
-        : 'border-slate-200/60 dark:border-slate-800/60 hover:shadow-md hover:border-slate-300 dark:hover:border-slate-700/80 hover:bg-slate-50/50 dark:hover:bg-dark-800/40'
+        ? 'border-green-500 shadow-lg shadow-green-500/20 dark:shadow-green-500/5 bg-green-50/30 dark:bg-green-950/10' 
+        : 'border-slate-200/80 dark:border-zinc-800/60 shadow-md shadow-slate-200 dark:shadow-none hover:shadow-xl hover:shadow-slate-300/60 dark:hover:shadow-none hover:border-slate-300 dark:hover:border-slate-700/80 hover:bg-slate-50/50 dark:hover:bg-zinc-900/40 hover:-translate-y-0.5'
     }`}>
       
       {/* Album Cover Container */}
-      <div className="aspect-square w-full rounded-xl bg-slate-100 dark:bg-dark-950 border border-slate-200/50 dark:border-slate-800/50 overflow-hidden relative mb-4 shrink-0 flex items-center justify-center">
+      <div className="aspect-square w-full rounded-xl bg-slate-50 dark:bg-black border border-slate-200/50 dark:border-zinc-800/50 overflow-hidden relative mb-4 shrink-0 flex items-center justify-center">
         {song.cover_image ? (
           <img 
             src={getAbsoluteUrl(song.cover_image)} 
@@ -62,7 +62,7 @@ export default function SongCard({
           {isCurrent && isPlaying ? (
             <button
               onClick={() => onPlay(song, false)}
-              className="w-12 h-12 bg-white text-violet-600 rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform"
+              className="w-12 h-12 bg-white text-green-600 rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform"
               title="Pause"
             >
               <Pause className="w-5 h-5 fill-current" />
@@ -70,7 +70,7 @@ export default function SongCard({
           ) : (
             <button
               onClick={() => onPlay(song, true)}
-              className="w-12 h-12 bg-violet-500 hover:bg-violet-600 text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform"
+              className="w-12 h-12 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform"
               title="Play"
             >
               <Play className="w-5 h-5 fill-current ml-0.5" />
@@ -103,8 +103,8 @@ export default function SongCard({
             {showDropdown && (
               <>
                 <div className="fixed inset-0 z-10" onClick={() => setShowDropdown(false)}></div>
-                <div className="absolute right-0 mt-1 w-48 rounded-xl bg-white dark:bg-dark-900 border border-slate-200 dark:border-slate-800 shadow-xl py-1 z-20 text-slate-700 dark:text-slate-300 text-xs">
-                  <p className="px-3 py-1.5 font-bold text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">Add to Playlist</p>
+                <div className="absolute right-0 mt-1 w-48 rounded-xl bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 shadow-xl py-1 z-20 text-slate-700 dark:text-slate-300 text-xs">
+                  <p className="px-3 py-1.5 font-bold text-[10px] text-slate-400 dark:text-slate-500 uppercase tracking-wider border-b border-slate-100 dark:border-zinc-800">Add to Playlist</p>
                   
                   {playlists.length === 0 ? (
                     <p className="px-3 py-2 text-slate-400 dark:text-slate-500 italic">No playlists</p>
@@ -120,7 +120,7 @@ export default function SongCard({
                     ))
                   )}
 
-                  <div className="border-t border-slate-100 dark:border-slate-800 my-1"></div>
+                  <div className="border-t border-slate-100 dark:border-zinc-800 my-1"></div>
                   <button
                     onClick={() => {
                       onDelete(song.id);
@@ -144,12 +144,12 @@ export default function SongCard({
         {/* Meta Pills (Album / Genre) */}
         <div className="flex flex-wrap gap-1.5 mt-3">
           {song.genre && (
-            <span className="text-[10px] px-2 py-0.5 bg-slate-100 dark:bg-dark-950 text-slate-500 dark:text-slate-400 rounded-full font-semibold border border-slate-200/20">
+            <span className="text-[10px] px-2 py-0.5 bg-slate-50 dark:bg-black text-slate-500 dark:text-slate-400 rounded-full font-semibold border border-slate-200/20">
               {song.genre}
             </span>
           )}
           {song.album && (
-            <span className="text-[10px] px-2 py-0.5 bg-violet-500/5 text-violet-600 dark:text-violet-400 rounded-full font-semibold border border-violet-500/10 truncate max-w-[120px]" title={song.album}>
+            <span className="text-[10px] px-2 py-0.5 bg-green-500/5 text-green-600 dark:text-green-400 rounded-full font-semibold border border-green-500/10 truncate max-w-[120px]" title={song.album}>
               {song.album}
             </span>
           )}
@@ -162,7 +162,7 @@ export default function SongCard({
         className={`absolute top-6 right-6 p-2 rounded-xl transition-all duration-300 shadow-md ${
           isFavorited
             ? 'bg-red-500 text-white opacity-100 scale-100'
-            : 'bg-white/80 dark:bg-dark-900/80 text-slate-400 dark:text-slate-500 hover:text-red-500 opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100'
+            : 'bg-white/80 dark:bg-zinc-950/80 text-slate-400 dark:text-slate-500 hover:text-red-500 opacity-0 group-hover:opacity-100 scale-90 group-hover:scale-100'
         }`}
         title={isFavorited ? 'Remove from favorites' : 'Add to favorites'}
       >

@@ -12,5 +12,9 @@ class Song(models.Model):
     uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_songs')
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        # Prevent the same user uploading the same title+artist combination twice
+        unique_together = ('title', 'artist', 'uploaded_by')
+
     def __str__(self):
         return f"{self.title} - {self.artist}"

@@ -119,7 +119,39 @@ export default function MusicPlayer({
         audioRef.current.play().catch(() => setIsPlaying(false));
       }
     } else {
+      if (playQueue.length === 1) {
+        if (audioRef.current) {
+          audioRef.current.currentTime = 0;
+          audioRef.current.pause();
+        }
+        setIsPlaying(false);
+      } else {
+        playNext();
+      }
+    }
+  };
+
+  const handlePlayNext = () => {
+    if (playQueue.length === 1 && currentSong) {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(() => setIsPlaying(false));
+      }
+      setIsPlaying(true);
+    } else {
       playNext();
+    }
+  };
+
+  const handlePlayPrevious = () => {
+    if (playQueue.length === 1 && currentSong) {
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch(() => setIsPlaying(false));
+      }
+      setIsPlaying(true);
+    } else {
+      playPrevious();
     }
   };
 
@@ -183,8 +215,8 @@ export default function MusicPlayer({
             currentSong={currentSong}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
-            playNext={playNext}
-            playPrevious={playPrevious}
+            playNext={handlePlayNext}
+            playPrevious={handlePlayPrevious}
             currentTime={currentTime}
             trackDuration={trackDuration}
             handleSeek={handleSeek}
@@ -200,13 +232,13 @@ export default function MusicPlayer({
             onClose={() => setIsExpanded(false)}
           />
         ) : (
-          <div className="fixed bottom-0 left-0 right-0 h-16 bg-white/95 dark:bg-dark-900/95 border-t border-slate-200 dark:border-slate-800/80 backdrop-blur-md px-4 flex items-center justify-between z-40 transition-colors duration-300 shadow-xl">
+          <div className="fixed bottom-0 left-0 right-0 h-16 bg-white/95 dark:bg-zinc-950/95 border-t border-slate-200 dark:border-zinc-800/80 backdrop-blur-md px-4 flex items-center justify-between z-40 transition-colors duration-300 shadow-xl">
             {/* Left: Info area (Tapping it expands the player) */}
             <div
               onClick={() => setIsExpanded(true)}
               className="flex items-center gap-3 flex-1 min-w-0 cursor-pointer text-left"
             >
-              <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 relative flex items-center justify-center">
+              <div className="w-10 h-10 rounded-lg bg-slate-50 dark:bg-black border border-slate-200 dark:border-zinc-800 overflow-hidden shrink-0 relative flex items-center justify-center">
                 {currentSong.cover_image ? (
                   <img
                     src={getAbsoluteUrl(currentSong.cover_image)}
@@ -227,12 +259,12 @@ export default function MusicPlayer({
             <div className="flex items-center gap-3 shrink-0">
               <button
                 onClick={togglePlay}
-                className="w-8 h-8 bg-violet-500 hover:bg-violet-600 text-white rounded-full flex items-center justify-center shadow-md active:scale-90 transition-all"
+                className="w-8 h-8 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-md active:scale-90 transition-all"
               >
                 {isPlaying ? <Pause className="w-4.5 h-4.5" /> : <Play className="w-4.5 h-4.5 fill-current ml-0.5" />}
               </button>
               <button
-                onClick={playNext}
+                onClick={handlePlayNext}
                 className="p-1.5 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all active:scale-90"
               >
                 <SkipForward className="w-4 h-4" />
@@ -245,7 +277,7 @@ export default function MusicPlayer({
   }
 
   return (
-    <div className="hidden md:flex fixed bottom-0 left-64 right-0 h-24 bg-white/95 dark:bg-dark-900/95 border-t border-slate-200 dark:border-slate-800/80 backdrop-blur-md px-6 flex items-center justify-between z-40 transition-colors duration-300 shadow-xl">
+    <div className="hidden md:flex fixed bottom-0 left-64 right-0 h-24 bg-white/95 dark:bg-zinc-950/95 border-t border-slate-200 dark:border-zinc-800/80 backdrop-blur-md px-6 flex items-center justify-between z-40 transition-colors duration-300 shadow-xl">
 
       {/* Audio Element */}
       <audio
@@ -258,7 +290,7 @@ export default function MusicPlayer({
 
       {/* Left Pane: Song Info */}
       <div className="flex items-center gap-3 w-1/4 min-w-[200px]">
-        <div className="w-14 h-14 rounded-lg bg-slate-100 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 overflow-hidden shrink-0 relative flex items-center justify-center">
+        <div className="w-14 h-14 rounded-lg bg-slate-50 dark:bg-black border border-slate-200 dark:border-zinc-800 overflow-hidden shrink-0 relative flex items-center justify-center">
           {currentSong.cover_image ? (
             <img
               src={getAbsoluteUrl(currentSong.cover_image)}
@@ -298,7 +330,7 @@ export default function MusicPlayer({
           <button
             onClick={() => setShuffle(!shuffle)}
             className={`p-1.5 rounded-lg transition-all ${shuffle
-                ? 'text-violet-500 bg-violet-500/10'
+                ? 'text-green-500 bg-green-500/10'
                 : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
               }`}
             title="Shuffle"
@@ -308,7 +340,7 @@ export default function MusicPlayer({
 
           {/* Previous */}
           <button
-            onClick={playPrevious}
+            onClick={handlePlayPrevious}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all active:scale-95"
             title="Previous"
           >
@@ -318,7 +350,7 @@ export default function MusicPlayer({
           {/* Play/Pause */}
           <button
             onClick={togglePlay}
-            className="w-10 h-10 bg-violet-500 hover:bg-violet-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-violet-500/20 active:scale-90 transition-all"
+            className="w-10 h-10 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg shadow-green-500/20 active:scale-90 transition-all"
             title={isPlaying ? 'Pause' : 'Play'}
           >
             {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5 fill-current ml-0.5" />}
@@ -326,7 +358,7 @@ export default function MusicPlayer({
 
           {/* Next */}
           <button
-            onClick={playNext}
+            onClick={handlePlayNext}
             className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all active:scale-95"
             title="Next"
           >
@@ -337,7 +369,7 @@ export default function MusicPlayer({
           <button
             onClick={() => setRepeat(!repeat)}
             className={`p-1.5 rounded-lg transition-all ${repeat
-                ? 'text-violet-500 bg-violet-500/10'
+                ? 'text-green-500 bg-green-500/10'
                 : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
               }`}
             title="Repeat"
@@ -359,7 +391,7 @@ export default function MusicPlayer({
             onChange={handleSeek}
             className="flex-1"
             style={{
-              background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${progressPercent}%, var(--slider-track-color) ${progressPercent}%, var(--slider-track-color) 100%)`
+              background: `linear-gradient(to right, #22c55e 0%, #22c55e ${progressPercent}%, var(--slider-track-color) ${progressPercent}%, var(--slider-track-color) 100%)`
             }}
           />
           <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold w-8 text-left">
@@ -383,9 +415,9 @@ export default function MusicPlayer({
           step="0.01"
           value={isMuted ? 0 : volume}
           onChange={handleVolumeSlider}
-          className="w-24 accent-violet-500"
+          className="w-24 accent-green-500"
           style={{
-            background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${volumePercent}%, var(--slider-track-color) ${volumePercent}%, var(--slider-track-color) 100%)`
+            background: `linear-gradient(to right, #22c55e 0%, #22c55e ${volumePercent}%, var(--slider-track-color) ${volumePercent}%, var(--slider-track-color) 100%)`
           }}
         />
       </div>
