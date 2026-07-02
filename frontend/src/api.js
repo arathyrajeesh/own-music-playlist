@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://own-music-playlist.onrender.com';
+const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost:8001'
+  : 'https://own-music-playlist.onrender.com';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

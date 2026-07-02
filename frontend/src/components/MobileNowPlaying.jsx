@@ -111,6 +111,7 @@ export default function MobileNowPlaying({
 
   // Dynamically determine the subtitle playlist description
   const subtitle = activePlaylistName || "List lagu yang sekali denger langsung suka, dijamin :D";
+  const progressPercent = trackDuration ? (currentTime / trackDuration) * 100 : 0;
 
   return (
     <div
@@ -201,6 +202,9 @@ scale(${offset === 0 ? 1 : 0.75})
                     value={currentTime}
                     onChange={handleSeek}
                     className="w-full accent-violet-500"
+                    style={{
+                      background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${progressPercent}%, rgba(255, 255, 255, 0.25) ${progressPercent}%, rgba(255, 255, 255, 0.25) 100%)`
+                    }}
                   />
 
                   <div className="flex justify-between text-xs text-white/70 mt-2">

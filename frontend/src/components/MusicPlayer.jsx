@@ -163,6 +163,9 @@ export default function MusicPlayer({
 
   if (!currentSong) return null;
 
+  const progressPercent = trackDuration ? (currentTime / trackDuration) * 100 : 0;
+  const volumePercent = isMuted ? 0 : volume * 100;
+
   if (isMobile) {
     return (
       <>
@@ -242,7 +245,7 @@ export default function MusicPlayer({
   }
 
   return (
-    <div className="hidden md:flex fixed bottom-0 left-0 right-0 h-24 bg-white/95 dark:bg-dark-900/95 border-t border-slate-200 dark:border-slate-800/80 backdrop-blur-md px-6 flex items-center justify-between z-40 transition-colors duration-300 shadow-xl">
+    <div className="hidden md:flex fixed bottom-0 left-64 right-0 h-24 bg-white/95 dark:bg-dark-900/95 border-t border-slate-200 dark:border-slate-800/80 backdrop-blur-md px-6 flex items-center justify-between z-40 transition-colors duration-300 shadow-xl">
 
       {/* Audio Element */}
       <audio
@@ -355,6 +358,9 @@ export default function MusicPlayer({
             value={currentTime}
             onChange={handleSeek}
             className="flex-1"
+            style={{
+              background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${progressPercent}%, var(--slider-track-color) ${progressPercent}%, var(--slider-track-color) 100%)`
+            }}
           />
           <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold w-8 text-left">
             {formatTime(trackDuration)}
@@ -378,6 +384,9 @@ export default function MusicPlayer({
           value={isMuted ? 0 : volume}
           onChange={handleVolumeSlider}
           className="w-24 accent-violet-500"
+          style={{
+            background: `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${volumePercent}%, var(--slider-track-color) ${volumePercent}%, var(--slider-track-color) 100%)`
+          }}
         />
       </div>
 

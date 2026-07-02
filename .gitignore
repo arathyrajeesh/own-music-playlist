@@ -1,0 +1,33 @@
+# Virtual environment
+music-library/env/
+env/
+venv/
+.venv/
+
+# Python Cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Django Local database
+music-library/db.sqlite3
+db.sqlite3
+
+# Django Local Media uploads
+music-library/media/
+media/
+
+# Frontend Node packages
+frontend/node_modules/
+node_modules/
+
+# Frontend Build dist
+frontend/dist/
+dist/
+
+# OS and IDE files
+.DS_Store
+.vscode/
+.idea/
+*.log
